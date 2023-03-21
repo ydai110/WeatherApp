@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -54,7 +53,9 @@ public class SearchFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -94,12 +95,12 @@ public class SearchFragment extends Fragment {
     private void initRecyclerView() {
         suggestionsAdapter = new SuggestionsAdapter(new ArrayList<>(), onSuggestionItemClickListener);
 
-        searchViewModel.getCitySuggestion().observe(getViewLifecycleOwner(), new Observer<Resource<List<CitySuggestionsModel>>>() {
-            @Override
-            public void onChanged(Resource<List<CitySuggestionsModel>> listResource) {
-                if (listResource instanceof Resource.Success) {
-                    suggestionsAdapter.setData(((Resource.Success<List<CitySuggestionsModel>>) listResource).getValue());
-                }
+        searchViewModel.getCitySuggestion().observe(getViewLifecycleOwner(), listResource -> {
+            if (listResource instanceof Resource.Success) {
+                suggestionsAdapter.setData(
+                        ((Resource.Success<List<CitySuggestionsModel>>) listResource)
+                                .getValue()
+                );
             }
         });
 
@@ -127,7 +128,8 @@ public class SearchFragment extends Fragment {
             locationViewModel.setCurrentLocation(userLocation);
             ProgressBar progressBar = requireActivity().findViewById(R.id.progress_bar);
             progressBar.setVisibility(View.VISIBLE);
-            NavHostFragment.findNavController(SearchFragment.this).navigate(R.id.action_SecondFragment_to_FirstFragment);
+            NavHostFragment.findNavController(SearchFragment.this)
+                    .navigate(R.id.action_SecondFragment_to_FirstFragment);
         }
     };
 }

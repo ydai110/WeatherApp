@@ -61,7 +61,8 @@ public class MainActivity extends AppCompatActivity {
                 getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
         // Navigation
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        NavController navController = Navigation.findNavController(
+                this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupWithNavController(binding.toolbar, navController, appBarConfiguration);
 
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(
                 this,
                 new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                        REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
+                REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
         );
     }
 
@@ -140,7 +141,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp();
+        NavController navController = Navigation.findNavController(
+                this, R.id.nav_host_fragment_content_main);
+        return NavigationUI.navigateUp(navController, appBarConfiguration) ||
+                super.onSupportNavigateUp();
     }
 }
